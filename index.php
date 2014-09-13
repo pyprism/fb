@@ -21,37 +21,25 @@ FacebookSession::setDefaultApplication($log_json['app_id'], $log_json['app_secre
 
 $helper = new FacebookRedirectLoginHelper('http://apps.dev/');
 
-try
-{
-    // In case it comes from a redirect login helper
-    $session = $helper->getSessionFromRedirect();
-}
-catch( FacebookRequestException $ex )
-{
-    // When Facebook returns an error
-    echo $ex;
-}
-catch( Exception $ex )
-{
-    // When validation fails or other local issues
-    echo $ex;
+
+// If you already have a valid access token:
+$session = new FacebookSession('access-token');
+
+// If you're making app-level requests:
+$session = FacebookSession::newAppSession();
+
+// To validate the session:
+try {
+    $session->validate();
+} catch (FacebookRequestException $ex) {
+    // Session not valid, Graph API returned an exception with the reason.
+    echo $ex->getMessage();
+} catch (\Exception $ex) {
+    // Graph API returned info, but it may mismatch the current app or have expired.
+    echo $ex->getMessage();
 }
 
-// see if we have a session in $_Session[]
-if( isset($_SESSION['token']))
-{
-    // We have a token, is it valid?
-    $session = new FacebookSession($_SESSION['token']);
-    try
-    {
-        $session->Validate($log_json['app_id'] ,$secret);
-    }
-    catch( FacebookAuthorizationException $ex)
-    {
-        // Session is not valid any more, get a new one.
-        $session ='';
-    }
-}
+
 
 // see if we have a session
 if ( isset( $session ) )
