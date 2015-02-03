@@ -1,6 +1,7 @@
 {
   "require" : {
     "facebook/php-sdk-v4" : "4.0.*",
-    "ext-mbstring": "*"
+    "ext-mbstring": "*",
+    "symfony/var-dumper": "~2.6"
   }
 }
