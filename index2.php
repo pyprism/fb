@@ -25,7 +25,7 @@ $permissions = array(
     'user_friends'
 );
 
-$helper = new FacebookRedirectLoginHelper('http://apps.dev/redirect.php');
+$helper = new FacebookRedirectLoginHelper('http://localhost:8000/redirect.php');
 echo '<a href="' . $helper->getLoginUrl($permissions) . '">Login with Facebook</a>';
 
 /*if (!empty($session)){

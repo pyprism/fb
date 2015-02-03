@@ -17,13 +17,14 @@ use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequestException;
 use Facebook\FacebookRequest;
 use Facebook\GraphUser;
+use Facebook\GraphLocation;
 
 $login = file_get_contents("login.json");
 $log_json = json_decode($login,true);
 
 FacebookSession::setDefaultApplication($log_json['app_id'], $log_json['app_secret']);
 
-$helper = new FacebookRedirectLoginHelper('http://apps.dev/redirect.php');
+$helper = new FacebookRedirectLoginHelper('http://localhost:8000/redirect.php');
 
 //$session = new FacebookSession($_GET['code']);
 try {
@@ -46,5 +47,16 @@ if ($session) {
     $graphObject = $response->getGraphObject();
 
     //echo "Name: " . $user_profile->getName();
-    print_r($graphObject);
+   //print_r($graphObject);
+   // var_dump($graphObject);
+   // $h = (array)$graphObject->backingData->data ;
+   // var_dump($h::backingData);
+   // foreach($graphObject as $x){
+   //      dump($x);
+   // }
+  // $loc = $response->getGraphObject(GraphLocation::backingData());
+   $loc = $graphObject->getProperty('data') ;
+   //var_dump($loc);
+    foreach($loc as $fuck)
+        var_dump($fuck);
 }
