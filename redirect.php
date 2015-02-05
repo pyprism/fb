@@ -47,16 +47,22 @@ if ($session) {
     $graphObject = $response->getGraphObject();
 
     //echo "Name: " . $user_profile->getName();
-   //print_r($graphObject);
-   // var_dump($graphObject);
-   // $h = (array)$graphObject->backingData->data ;
-   // var_dump($h::backingData);
-   // foreach($graphObject as $x){
-   //      dump($x);
-   // }
-  // $loc = $response->getGraphObject(GraphLocation::backingData());
-   $loc = $graphObject->getProperty('data') ;
-   //var_dump($loc);
-    foreach($loc as $fuck)
-        var_dump($fuck);
+    //print_r($graphObject);
+    // var_dump($graphObject);
+    // $h = (array)$graphObject->backingData->data ;
+    // var_dump($h::backingData);
+    // foreach($graphObject as $x){
+    //      dump($x);
+    // }
+    // $loc = $response->getGraphObject();
+    $loc = $graphObject->getProperty('data') ;
+   //dump($loc);
+   $locs = $loc->asArray();
+   var_dump($locs[0]) ;
+   //foreach($locs[0] as $x=>$y) {
+   //    dump($y);
+   //}
+    echo $locs[0]->commnets->data;
+   // foreach($loc as $fuck)
+     //   var_dump($fuck);
 }
