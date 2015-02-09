@@ -55,14 +55,17 @@ if ($session) {
     //      dump($x);
     // }
     // $loc = $response->getGraphObject();
+    dump($graphObject);
     $loc = $graphObject->getProperty('data') ;
    //dump($loc);
    $locs = $loc->asArray();
-   var_dump($locs[0]) ;
+   dump($locs);
+   dump($locs[0]);
    //foreach($locs[0] as $x=>$y) {
    //    dump($y);
    //}
-    echo $locs[0]->commnets->data;
+    $x = get_object_vars($locs[0]);
+    dump($x['comments']);
    // foreach($loc as $fuck)
      //   var_dump($fuck);
 }
