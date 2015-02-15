@@ -57,30 +57,53 @@ if ($session) {
 	//      dump($x);
 	// }
 	// $loc = $response->getGraphObject();
-	dump($graphObject);
+	//dump($graphObject);
 	$loc = $graphObject->getProperty('data');
 	//dump($loc);
 	$locs = $loc->asArray();
-	dump($locs);
-	dump($locs[0]);
+	//dump($locs);
+
+	function extract_e($collection, $object){
+		$counter = 0;
+		while($counter < count($object)){
+			$hiren = $object[$counter]; 
+			if (empty($hiren->from->id))
+				dump($hiren);
+			database($collection, $hiren->id, $hiren->from->id, 
+				$hiren->from->name, $hiren->message, $hiren->created_time);
+			$counter = $counter + 1 ;
+		}
+	}
+
+	$counter = 0;
+	while ( $counter < count($locs)) {
+		$x = get_object_vars($locs[$counter]);
+		$y = $x['comments']->data;
+		extract_e($counter, $y);
+		$counter = $counter + 1;
+	}
+
+	
+
+	//dump($locs[0]);
 	//foreach($locs[0] as $x=>$y) {
 	//    dump($y);
 	//}
 	$x = get_object_vars($locs[0]);
-	dump($x['comments']->data);
+	//dump($x['comments']->data);
 	$y = $x['comments']->data;
-	echo count($y) ;
-	echo "<br>";
-	echo $y[0]->id;
-	echo '<br>';
-	echo $y[0]->from->id;
-	echo '<br>';
+	//echo count($y) ;
+	//echo "<br>";
+	//echo $y[0]->id;
+	//echo '<br>';
+	//echo $y[0]->from->id;
+	//echo '<br>';
 	//echo $y[0]->from->name;
-	echo '<br>';
+	// '<br>';
 	//echo $y[0]->message;
-	echo '<br>';
-	echo $y[0]->created_time;
-	echo '<br>';
+	//echo '<br>';
+	//echo $y[0]->created_time;
+	//echo '<br>';
 	//foreach ( $y as $key => $value ) {
 	//	echo $key . $value;
 	//}
