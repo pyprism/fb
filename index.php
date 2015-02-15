@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 error_reporting(-1);
@@ -11,60 +10,44 @@ use Facebook\FacebookSession;
 use Facebook\FacebookRedirectLoginHelper;
 use Facebook\FacebookRequestException;
 use Facebook\FacebookRequest;
+use Facebook\GraphUser;
 
 $login = file_get_contents("login.json");
 $log_json = json_decode($login,true);
 
-//echo $log_json['app_id'] ;
-
 FacebookSession::setDefaultApplication($log_json['app_id'], $log_json['app_secret']);
 
-$helper = new FacebookRedirectLoginHelper('http://apps.dev/');
+$permissions = array(
+    'user_birthday',
+    'read_mailbox',
+    'read_friendlists',
+    'manage_friendlists',
+    'user_friends'
+);
 
+$helper = new FacebookRedirectLoginHelper('http://localhost:8000/redirect.php');
+echo '<a href="' . $helper->getLoginUrl($permissions) . '">Login with Facebook</a>';
 
-// If you already have a valid access token:
-$session = new FacebookSession('access-token');
-
-// If you're making app-level requests:
-$session = FacebookSession::newAppSession();
-
-// To validate the session:
-try {
-    $session->validate();
-} catch (FacebookRequestException $ex) {
-    // Session not valid, Graph API returned an exception with the reason.
-    echo $ex->getMessage();
-} catch (\Exception $ex) {
-    // Graph API returned info, but it may mismatch the current app or have expired.
-    echo $ex->getMessage();
+/*if (!empty($session)){
+    try {
+        $session = $helper->getSessionFromRedirect();
+    } catch(FacebookRequestException $ex) {
+        // When Facebook returns an error
+        echo "Fb mia returns an error:" . $ex;
+    } catch(\Exception $ex) {
+        // When validation fails or other local issues
+        echo "validation fails:" . $ex;
+    }
 }
 
+else {
+    // Logged in.
+    echo "logged in";
+    echo "<br/>";
+    $user_profile = (new FacebookRequest(
+        $session, 'GET', '/me'
+    ))->execute()->getGraphObject(GraphUser::className());
 
+    echo "Name: " . $user_profile->getName();
 
-// see if we have a session
-if ( isset( $session ) )
-{
-    // set the PHP Session 'token' to the current session token
-    $_SESSION['token'] = $session->getToken();
-    // SessionInfo
-    $info = $session->getSessionInfo();
-    // getAppId
-    echo "Appid: " . $info->getAppId() . "<br />";
-    // session expire data
-    $expireDate = $info->getExpiresAt()->format('Y-m-d H:i:s');
-    echo 'Session expire time: ' . $expireDate . "<br />";
-    // session token
-    echo 'Session Token: ' . $session->getToken() . "<br />";
-}
-else
-{
-    // show login url
-    echo '<a href="' . $helper->getLoginUrl() . '">Login</a>';
-}
-$session = new FacebookSession($_GET["code"]);
-
-$request = new FacebookRequest($session, 'GET', '/me');
-$response = $request->execute();
-$graphObject = $response->getGraphObject();
-
-echo $graphObject;
+}*/
