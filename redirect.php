@@ -59,9 +59,9 @@ if ($session) {
 	// $loc = $response->getGraphObject();
 	//dump($graphObject);
 	$loc = $graphObject->getProperty('data');
-	//dump($loc);
+	dump($loc);
 	$locs = $loc->asArray();
-	//dump($locs);
+	dump($locs);
 
 	function extract_e($collection, $object){
 		$counter = 0;
@@ -79,7 +79,7 @@ if ($session) {
 	while ( $counter < count($locs)) {
 		$x = get_object_vars($locs[$counter]);
 		$y = $x['comments']->data;
-		extract_e($counter, $y);
+		//extract_e($counter, $y);
 		$counter = $counter + 1;
 	}
 
@@ -123,4 +123,20 @@ if ($session) {
 	//$body = $response->json();
 	//dump($body);
 	//database();
+	function url($url){
+		$client = new Client();
+		$response=$client->get($url);
+		$body = $response->json();
+		return $body['paging']['next'];
+	}
+
+		//$client = new Client();
+		//$response = $client->get($x['comments']->paging->next);
+		//$body = $response->json();
+		//$url = $body['paging']['next'];
+		//while(true){
+		//$result = url($url);
+		//if 
+	//	}
+       
 }
