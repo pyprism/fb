@@ -110,12 +110,12 @@ if ($session) {
 	/*
 	* access to next pagination data 
 	*/
-	try{
-	  dump($x['comments']->paging->next);
-	}
-	catch(Exception $e){
-		echo "Exception baby : " . $e->getMessage() ;
-	}
+	//try{
+	//  dump($x['comments']->paging->next);
+	//}
+	//catch(Exception $e){
+	//	echo "Exception baby : " . $e->getMessage() ;
+	//}
 	// foreach($loc as $fuck)
 	//   var_dump($fuck);
 	//$client = new Client();
@@ -130,13 +130,20 @@ if ($session) {
 		return $body['paging']['next'];
 	}
 
-		//$client = new Client();
-		//$response = $client->get($x['comments']->paging->next);
-		//$body = $response->json();
-		//$url = $body['paging']['next'];
-		//while(true){
-		//$result = url($url);
-		//if 
-	//	}
+		$client = new Client();
+		$response = $client->get($x['comments']->paging->next);
+		$body = $response->json();
+		$url = $body['paging']['next'];
+		$count = 0 ;
+		while(true){
+		$result = url($url);
+		 if(empty($result))
+		 	break;
+		 echo $count . ": " . $result . "<br>";
+		 $url = $result;
+		 $count = $count + 1;
+		 // Api Limit !  :/
+		 sleep(5);
+	 	}
        
 }
