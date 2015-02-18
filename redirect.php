@@ -43,7 +43,8 @@ if ($session) {
 	$request = new FacebookRequest(
 		$session,
 		'GET',
-		'/me/inbox'
+		'/me/inbox?limit=100'
+		//'/me/threads'
 	);
 	$response = $request->execute();
 	$graphObject = $response->getGraphObject();
