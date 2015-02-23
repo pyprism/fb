@@ -93,37 +93,7 @@ if ($session) {
 	$x = get_object_vars($locs[0]);
 	//dump($x['comments']->data);
 	$y = $x['comments']->data;
-	//echo count($y) ;
-	//echo "<br>";
-	//echo $y[0]->id;
-	//echo '<br>';
-	//echo $y[0]->from->id;
-	//echo '<br>';
-	//echo $y[0]->from->name;
-	// '<br>';
-	//echo $y[0]->message;
-	//echo '<br>';
-	//echo $y[0]->created_time;
-	//echo '<br>';
-	//foreach ( $y as $key => $value ) {
-	//	echo $key . $value;
-	//}
-	/*
-	* access to next pagination data 
-	*/
-	//try{
-	//  dump($x['comments']->paging->next);
-	//}
-	//catch(Exception $e){
-	//	echo "Exception baby : " . $e->getMessage() ;
-	//}
-	// foreach($loc as $fuck)
-	//   var_dump($fuck);
-	//$client = new Client();
-	//$response = $client->get("https://graph.facebook.com/v2.2/1463911900493144/comments?access_token=CAAKXPUpm20EBAG6CEsO4Lh32ZCNlrWrqrfinHC9MQP6rm0LVSYVpPWquEtLNaueSw4nw82RZADeqrIQiP7HutWKua1Aoa25QnNIvxlsMlkDdukIN2AvaZCn24IzZCj4PdQQLX1ang6PY9tnsZAnm6xsZCXqQ6epkAqnqxRT5MYfy8vw2ZBjrbTKvbrZAJmkuZAYVB4Xtnzg4zSCbFXMuEPyNW&limit=25&until=1423765183&__paging_token=enc_AdAczc5vQhqbetxYNqwtljuB5eENvDWeBH05FJcxrRHoawOlTofZBDE8p0YA5Q82DJ5EvuEQaoog8LnAxQ7Lw5AwV");
-	//$body = $response->json();
-	//dump($body);
-	//database();
+
 	function url($url){
 		$client = new Client();
 		$response=$client->get($url);
