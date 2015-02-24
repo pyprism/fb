@@ -33,8 +33,10 @@ try {
 	$session = $helper->getSessionFromRedirect();
 } catch (FacebookRequestException $ex) {
 // When Facebook returns an error
+    echo $ex;
 } catch (\Exception $ex) {
 // When validation fails or other local issues
+    echo $ex;
 }
 if ($session) {
 // Logged in
@@ -49,20 +51,11 @@ if ($session) {
 	$response = $request->execute();
 	$graphObject = $response->getGraphObject();
 
-	//echo "Name: " . $user_profile->getName();
-	//print_r($graphObject);
-	// var_dump($graphObject);
-	// $h = (array)$graphObject->backingData->data ;
-	// var_dump($h::backingData);
-	// foreach($graphObject as $x){
-	//      dump($x);
-	// }
-	// $loc = $response->getGraphObject();
 	//dump($graphObject);
 	$loc = $graphObject->getProperty('data');
-	dump($loc);
+	//dump($loc);
 	$locs = $loc->asArray();
-	dump($locs);
+	//dump($locs);
 
 	function extract_e($collection, $object){
 		$counter = 0;
@@ -76,45 +69,35 @@ if ($session) {
 		}
 	}
 
+    function url($url){
+        $client = new Client();
+        $response=$client->get($url);
+        $body = $response->json();
+        return $body['paging']['next'];
+    }
+
 	$counter = 0;
 	while ( $counter < count($locs)) {
 		$x = get_object_vars($locs[$counter]);
 		$y = $x['comments']->data;
-		//extract_e($counter, $y);
+		extract_e($counter, $y);
 		$counter = $counter + 1;
+
+        $client = new Client();
+        $response = $client->get($x['comments']->paging->next);
+        $body = $response->json();
+        $url = $body['paging']['next'];
+        $count = 0 ;
+        while(true){
+            $result = url($url);
+            if(empty($result))
+                break;
+            echo $count . ": " . $result . "<br>";
+            $url = $result;
+            $count = $count + 1;
+            // Api Limit !  :/
+            sleep(5);
+        }
 	}
 
-	
-
-	//dump($locs[0]);
-	//foreach($locs[0] as $x=>$y) {
-	//    dump($y);
-	//}
-	$x = get_object_vars($locs[0]);
-	//dump($x['comments']->data);
-	$y = $x['comments']->data;
-
-	function url($url){
-		$client = new Client();
-		$response=$client->get($url);
-		$body = $response->json();
-		return $body['paging']['next'];
-	}
-
-		$client = new Client();
-		$response = $client->get($x['comments']->paging->next);
-		$body = $response->json();
-		$url = $body['paging']['next'];
-		$count = 0 ;
-		while(true){
-		$result = url($url);
-		 if(empty($result))
-		 	break;
-		 echo $count . ": " . $result . "<br>";
-		 $url = $result;
-		 $count = $count + 1;
-		 // Api Limit !  :/
-		 sleep(5);
-	 	}
-       
 }
