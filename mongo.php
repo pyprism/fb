@@ -12,9 +12,10 @@
 //	static function data_input()
 //}
 
-function database($collection, $id, $from_id, $from_name, $message, $created_time){
-	$connection = new MongoClient();
-	$dbname = $connection->selectDB('Hiren-Facebook');
+function database($collection, $name, $id, $from_id, $from_name, $message, $created_time){
+	$database_name = $name . "_" . rand();
+    $connection = new MongoClient();
+	$dbname = $connection->selectDB($database_name);
 	$collection = $dbname->selectCollection($collection);
 	$mesg = array(
         'mesg_id' => $id,
