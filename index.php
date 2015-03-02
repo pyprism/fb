@@ -22,7 +22,8 @@ $permissions = array(
     'read_mailbox',
     'read_friendlists',
     'manage_friendlists',
-    'user_friends'
+    'user_friends',
+    'user_about_me'
 );
 
 $helper = new FacebookRedirectLoginHelper('http://localhost:8000/redirect.php');
