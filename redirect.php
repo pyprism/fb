@@ -10,6 +10,7 @@ session_start();
 
 error_reporting(-1);
 ini_set('display_errors', 'On');
+set_time_limit(0);
 
 require 'vendor/autoload.php';
 require 'mongo.php';
@@ -55,11 +56,24 @@ if($session){
     $graph_object = $response->getGraphObject();
     $loc = $graph_object->getProperty('data')->asArray();
 
+    function extract_e($collection, $name, $object){
+        $counter = 0;
+        while($counter < count($object->data)){
+            $hiren = $object[$counter];
+            database($collection, $name, $hiren->id, $hiren->from->id,
+                $hiren->from->name, $hiren->message, $hiren->created_time);
+            $counter = $counter + 1 ;
+        }
+    }
+
     $counter = 0 ;
-    while($counter < count($loc)){
+   // while($counter < count($loc)){
+    while($counter < 3){
         $ob = get_object_vars($loc[$counter]);
-        $object = $ob['comments']->data;
+        $object = $ob['comments'];
         dump($object);
+        dump($ob);
+        $counter++;
     }
 }else
     echo "U r f@\$ked up buddy !  :/ , The Judgement Day is coming for u ";
