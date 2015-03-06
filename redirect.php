@@ -56,7 +56,7 @@ if($session){
     $graph_object = $response->getGraphObject();
     $loc = $graph_object->getProperty('data')->asArray();
 
-    function extract_e($collection, $name, $object){
+    function extract_save($collection, $name, $object){
         $counter = 0;
         while($counter < count($object->data)){
             $hiren = $object[$counter];
@@ -67,13 +67,18 @@ if($session){
     }
 
     $counter = 0 ;
-   // while($counter < count($loc)){
-    while($counter < 3){
+    while($counter < count($loc)){
         $ob = get_object_vars($loc[$counter]);
         $object = $ob['comments'];
-        dump($object);
-        dump($ob);
+        //extract_save($counter, $name, $object);
         $counter++;
+
+        $client = new Client();
+        $response = $client->get($ob['comments']->paging->next);
+        $body = $response->json();
+        if(!array_filter($body))
+            break;
+        dump($body);
     }
 }else
     echo "U r f@\$ked up buddy !  :/ , The Judgement Day is coming for u ";
